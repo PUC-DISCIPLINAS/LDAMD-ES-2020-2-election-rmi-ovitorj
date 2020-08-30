@@ -10,7 +10,6 @@ import java.util.Vector;
 public class ElectionClient {
 
 	public static void main(String args[]) throws RemoteException {
-		ArrayList<String> eleitores = new ArrayList<String>();
 
 		String eleitor = "Alberto Matias Junior";
 		String candidato = "Luke";
