@@ -2,8 +2,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface Election extends Remote {
+	void vote(String candidato, String eleitor) throws RemoteException;
 
-	void vote(String name, long number) throws RemoteException;
-
-	void result(String name, long votes) throws RemoteException;
-}
+	Result result(String candidato) throws RemoteException;
+};
