@@ -9,7 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-public class ElectionServant extends UnicastRemoteObject implements Election {
+public class ElectionServant implements Election {
 
 	String[] candidatos = { "luke", "leia", "jake", "peter" };
 	int[] votes = new int[candidatos.length];
@@ -24,6 +24,7 @@ public class ElectionServant extends UnicastRemoteObject implements Election {
 	public void vote(String candidato, String eleitor) throws RemoteException {
 
 		String md5 = converteEleitor(eleitor);
+		System.out.println("---" + md5);
 
 		if (!eleitores.contains(md5)) {
 			for (int i = 0; i < candidatos.length; i++) {
@@ -43,12 +44,12 @@ public class ElectionServant extends UnicastRemoteObject implements Election {
 				e.printStackTrace();
 				System.out.println("No such file exists.");
 			}
-			eleitores.add(eleitor);
+			eleitores.add(md5);
 		}
 
 	}
 
-	public String converteEleitor(String eleitor) {
+	public static String converteEleitor(String eleitor) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(eleitor.getBytes());
@@ -70,7 +71,6 @@ public class ElectionServant extends UnicastRemoteObject implements Election {
 			if (candidato.equals(candidatos[i])) {
 				result.setName(candidato);
 				result.setVotes(votes[i]);
-
 			}
 		}
 		return result;
