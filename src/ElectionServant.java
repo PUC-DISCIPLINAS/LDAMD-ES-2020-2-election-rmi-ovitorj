@@ -11,20 +11,17 @@ import java.util.ArrayList;
 
 public class ElectionServant implements Election {
 
-	String[] candidatos = { "luke", "leia", "jake", "peter" };
+	String[] candidatos = { "Luke", "Leia", "Jake", "Peter", "Patrick", "Robert" };
 	int[] votes = new int[candidatos.length];
 	ArrayList<String> eleitores = new ArrayList<String>();
-	private static final long serialVersionUID = 1L;
-
 	protected ElectionServant() throws RemoteException {
 		super();
 	}
 
 	@Override
-	public void vote(String candidato, String eleitor) throws RemoteException {
+	public synchronized void vote(String candidato, String eleitor) throws RemoteException {
 
 		String md5 = converteEleitor(eleitor);
-		System.out.println("---" + md5);
 
 		if (!eleitores.contains(md5)) {
 			for (int i = 0; i < candidatos.length; i++) {
@@ -33,12 +30,13 @@ public class ElectionServant implements Election {
 				}
 			}
 			try {
-				File file = new File("backup.txt");
+				File file = new File("resultado.txt");
 				file.createNewFile();
 				PrintWriter output = new PrintWriter(new FileWriter(file));
-				for (int i : votes) {
-					output.println(i);
+				for (int i = 0; i < candidatos.length; i++) {
+					output.println("Candidato: "+candidatos[i]+" - Voto: "+votes[i]);
 				}
+				
 				output.close();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -48,8 +46,9 @@ public class ElectionServant implements Election {
 		}
 
 	}
-
-	public static String converteEleitor(String eleitor) {
+	
+	// Funcao para converter o nome do eleitor em MD5
+	public synchronized static String converteEleitor(String eleitor) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(eleitor.getBytes());
@@ -63,7 +62,8 @@ public class ElectionServant implements Election {
 
 	}
 
-	public Result result(String candidato) throws RemoteException {
+	// Recupera os votos de determinado candidato
+	public synchronized Result result(String candidato) throws RemoteException {
 		// TODO Auto-generated method stub
 		Result result = new Result();
 

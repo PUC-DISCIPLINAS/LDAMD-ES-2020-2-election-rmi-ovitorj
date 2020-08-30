@@ -1,0 +1,6 @@
+Candidato: Luke- Voto: 1
+Candidato: Leia- Voto: 1
+Candidato: Jake- Voto: 1
+Candidato: Peter- Voto: 0
+Candidato: Patrick- Voto: 0
+Candidato: Robert- Voto: 2
